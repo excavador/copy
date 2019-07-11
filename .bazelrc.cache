@@ -1,0 +1,20 @@
+build --disk_cache=~/.cache/bazel-cache-local
+run   --disk_cache=~/.cache/bazel-cache-local
+test  --disk_cache=~/.cache/bazel-cache-local
+
+fetch --repository_cache=~/.cache/bazel-cache-external
+build --repository_cache=~/.cache/bazel-cache-external
+run   --repository_cache=~/.cache/bazel-cache-external
+test  --repository_cache=~/.cache/bazel-cache-external
+
+build --experimental_repository_cache_hardlinks=true
+run   --experimental_repository_cache_hardlinks=true
+test  --experimental_repository_cache_hardlinks=true
+
+build --host_platform=@bazel_tools//platforms:host_platform
+run   --host_platform=@bazel_tools//platforms:host_platform
+test  --host_platform=@bazel_tools//platforms:host_platform
+
+build --experimental_guard_against_concurrent_changes
+run   --experimental_guard_against_concurrent_changes
+test  --experimental_guard_against_concurrent_changes

@@ -1,0 +1,36 @@
+try-import /root/bazelrc.prolog
+
+startup --host_jvm_args=--illegal-access=permit
+
+common --show_task_finish
+
+build --compilation_mode=dbg
+run   --compilation_mode=dbg
+test  --compilation_mode=dbg
+
+build --host_force_python=PY2
+run   --host_force_python=PY2
+test  --host_force_python=PY2
+
+import %workspace%/.bazelrc.cache
+
+build:release --compilation_mode=opt
+run:release   --compilation_mode=opt
+test:release  --compilation_mode=opt
+
+build --action_env=HOME
+build --action_env=PATH
+build --test_env=NAMESPACE_NAME
+
+run --action_env=HOME
+run --action_env=PATH
+run --test_env=NAMESPACE_NAME
+
+test --action_env=HOME
+test --action_env=PATH
+test --test_env=NAMESPACE_NAME
+
+test --test_verbose_timeout_warnings
+test --build_tests_only
+
+try-import /root/bazelrc.epilog

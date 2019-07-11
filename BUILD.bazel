@@ -1,0 +1,41 @@
+# gazelle:prefix github.com/excavador/copy
+# gazelle:proto disable_global
+
+load("@bazel_gazelle//:def.bzl", "gazelle")
+load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test", "nogo")
+
+nogo(
+    name = "nogo",
+    vet = True,
+    visibility = ["//visibility:public"],
+)
+
+gazelle(
+    name = "gazelle",
+    command = "fix",
+    external = "external",
+    visibility = ["//visibility:private"],
+)
+
+gazelle(
+    name = "gazelle-update-repos",
+    args = [
+        "update-repos",
+        "-from_file=Gopkg.lock",
+        "-to_macro=load.bzl%go_repositories",
+    ],
+    command = "fix",
+    external = "external",
+    visibility = ["//visibility:private"],
+)
+
+buildifier(name = "bzlfmt")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["copy.go"],
+    importpath = "github.com/excavador/copy",
+    visibility = ["//visibility:public"],
+)
+

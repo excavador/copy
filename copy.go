@@ -98,9 +98,13 @@ func dcopy(srcdir, destdir string, info os.FileInfo) error {
 // lcopy is for a symlink,
 // with just creating a new symlink by replicating src symlink.
 func lcopy(src, dest string, info os.FileInfo) error {
-	src, err := os.Readlink(src)
+	resolved, err := os.Readlink(src)
 	if err != nil {
 		return err
 	}
-	return os.Symlink(src, dest)
+	if filepath.IsAbs(resolved) {
+		return Copy(resolved, dest)
+	} else {
+		return Copy(filepath.Join(filepath.Dir(src), resolved), dest)
+	}
 }
